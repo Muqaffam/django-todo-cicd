@@ -5,6 +5,4 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./volume/store_data/db.sqlite3:/data/db.sqlite3
-volumes:
-  store_data:
+      - /var/lib/jenkins/workspace/volume/db.sqlite3:/data/db.sqlite3
