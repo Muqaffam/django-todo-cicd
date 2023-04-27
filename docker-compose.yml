@@ -6,11 +6,4 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - data-volume:/data/db.sqlite3
-volumes:
-  data-volume:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/ubuntu/db.sqlite3
+      - /home/ubuntu/db.sqlite3:/data/db.sqlite3
