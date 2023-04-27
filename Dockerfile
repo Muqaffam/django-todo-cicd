@@ -1,3 +1,5 @@
+# Dockerfile for django todo list app
+
 FROM python:3
 
 WORKDIR /data
