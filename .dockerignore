@@ -1,7 +1,6 @@
 volume
 k8s
-Dockerfile  
-README.md   
+Dockerfile
 docker-compose.yml
 LICENSE
-
+README.md  
