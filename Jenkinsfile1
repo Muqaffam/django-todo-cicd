@@ -3,6 +3,7 @@ pipeline {
     environment {
         DOCKER_IMAGE_TAG = "${BUILD_NUMBER}"
     }
+    def dockerImage // define dockerImage at top-level scope
     stages {
         stage ("code"){
             steps {
@@ -12,7 +13,7 @@ pipeline {
         stage ("Build an image"){
             steps {
                 script {
-                    def dockerImage = docker.build("chaitannyaa/django-todo-app:v-${DOCKER_IMAGE_TAG}", "--build-arg BUILD_NUMBER=${DOCKER_IMAGE_TAG} .")
+                    dockerImage = docker.build("chaitannyaa/django-todo-app:v-${DOCKER_IMAGE_TAG}", "--build-arg BUILD_NUMBER=${DOCKER_IMAGE_TAG} .")
                 }
             }
         }
