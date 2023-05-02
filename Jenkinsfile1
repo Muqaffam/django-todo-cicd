@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+    stages {
+        stage ("code"){
+            steps {
+                git url: 'https://github.com/Chaitannyaa/django-todo-cicd.git', branch: 'develop'
+            }
+        }
+        stage ("Build an image"){
+            steps {
+                script {
+                    def dockerImage = docker.build("chaitannyaa/django-todo-app:v-${DOCKER_IMAGE_TAG}", "--build-arg BUILD_NUMBER=${DOCKER_IMAGE_TAG} .")
+                }
+            }
+        }
+        stage ("login and push image"){
+            steps {
+                echo 'Logging into docker and pushing an image on dockerhub'
+                withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'password', usernameVariable: 'user')]) {
+                    script {
+                        docker.withRegistry("https://registry.hub.docker.com", "dockerhub_credentials") {
+                            dockerImage.push()
+                        }
+                    }
+                }
+            }
+        }
+        stage ("Deploy"){
+            steps {
+                script {
+                    dockerCompose(['down', 'up -d'])
+                }
+            }
+        }
+    }
+}
