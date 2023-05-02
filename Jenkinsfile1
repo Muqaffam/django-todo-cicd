@@ -21,7 +21,7 @@ pipeline {
                 echo 'Logging into docker and pushing an image on dockerhub'
                 withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'password', usernameVariable: 'user')]) {
                     script {
-                        docker.withRegistry("https://registry.hub.docker.com", "dockerhub_credentials") {
+                        docker.withRegistry("https://registry.hub.docker.com", "DockerHub") {
                             dockerImage.push()
                         }
                     }
