@@ -23,16 +23,18 @@ pipeline {
                 }
             }
         }
-        stage ("Deploy"){
+        stage("Deploy"){
             steps {
-                if [ -f /home/ubuntu/db.sqlite3 ]; then
-	            echo "Perfect"
-                echo '1180' | sudo -S rm -f /var/lib/jenkins/workspace/django-todo-cicd/db.sqlite3
-                echo '1180' | sudo -S cp -r /home/ubuntu/db.sqlite3 /var/lib/jenkins/workspace/django-todo-cicd/ 
-                else
-	            echo '1180' | sudo -S cp -r /var/lib/jenkins/workspace/django-todo-cicd/db.sqlite3 /home/ubuntu/db.sqlite3
-                fi
-                sh 'docker-compose down && docker-compose up -d'
+                sh '''
+                    if [[ -f /home/ubuntu/db.sqlite3 ]]; then
+                        echo "Perfect"
+                        echo '1180' | sudo -S rm -f /var/lib/jenkins/workspace/Django-app-CICD-Pipeline/db.sqlite3
+                        echo '1180' | sudo -S cp -r /home/ubuntu/db.sqlite3 /var/lib/jenkins/workspace/Django-app-CICD-Pipeline/ 
+                    else
+                        echo '1180' | sudo -S cp -r /var/lib/jenkins/workspace/Django-app-CICD-Pipeline/db.sqlite3 /home/ubuntu/db.sqlite3
+                    fi
+                    docker-compose down && docker-compose up -d
+                '''
             }
         }
     }
