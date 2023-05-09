@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage ("code"){
             steps {
-                git url: 'https://github.com/Chaitannyaa/django-todo-cicd.git', branch: 'develop'
+                git url: 'https://github.com/Muqaffam/django-todo-cicd.git', branch: 'develop'
             }
         }
         stage ("Build"){
@@ -25,17 +25,7 @@ pipeline {
         }
         stage("Deploy"){
             steps {
-                sh '''
-                    if [[ -f /home/ubuntu/db.sqlite3 ]]; then
-                        echo "Perfect"
-                        echo '1180' | sudo -S rm -f /var/lib/jenkins/workspace/Django-app-CICD-Pipeline/db.sqlite3
-                        echo '1180' | sudo -S cp -r /home/ubuntu/db.sqlite3 /var/lib/jenkins/workspace/Django-app-CICD-Pipeline/ 
-                    else
-                        echo '1180' | sudo -S cp -r /var/lib/jenkins/workspace/Django-app-CICD-Pipeline/db.sqlite3 /home/ubuntu/db.sqlite3
-                    fi
-                    docker-compose down && docker-compose up -d
-                '''
+                    sh 'docker-compose down && docker-compose up -d'
             }
         }
     }
-}
